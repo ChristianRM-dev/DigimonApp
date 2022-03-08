@@ -2,7 +2,7 @@ package com.example.digimonapp.models
 
 import android.net.Uri
 
-class Digimon(var name: String, var img: Uri, var leler: DigimonLevel, var isFavorite: Boolean){
+data class Digimon(var name: String, var img: String, var leler: DigimonLevel, var isFavorite: Boolean){
 
 }
 
@@ -39,7 +39,7 @@ object DigimonTest {
             field = ArrayList()
             val digimon = Digimon(
                 "Koromon",
-                Uri.parse("https://digimon.shadowsmith.com/img/koromon.jpg"),
+                "https://digimon.shadowsmith.com/img/koromon.jpg",
                 DigimonLevel.InTraining,
                 true
             )

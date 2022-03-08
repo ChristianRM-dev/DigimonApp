@@ -48,6 +48,7 @@ class DigimonAdapter(val context: Context, var digimonList: ArrayList<Digimon>) 
 
         fun setData(digimon: Digimon, position: Int) {
             txvDigimonName.text = digimon.name
+            val img = "https://digimon.shadowsmith.com/img/koromon.jpg"
             Picasso.get().load(digimon.img).into(imvDigimonImage);
             //imvDigimonImage.setImageURI(digimon.img)
 
