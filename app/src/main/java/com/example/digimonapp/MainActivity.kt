@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         navController   = navHostFrag.navController
 
         // Define AppbarConfiguration: Connect Drawer with Navigation Component
-        val topLevelDestination = setOf(R.id.fragmentCityList,R.id.fragmentFavoriteList)
+        val topLevelDestination = setOf(R.id.fragmentDigimonList,R.id.fragmentFavoriteDigimonList)
         val appBarConfiguration = AppBarConfiguration(topLevelDestination);
 
         // Connect Navbar with NavController

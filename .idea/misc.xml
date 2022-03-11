@@ -5,7 +5,9 @@
       <map>
         <entry key="..\:/Users/c.rios.mancilla/AndroidStudioProjects/DigimonApp/app/src/main/res/layout/activity_main.xml" value="0.1453804347826087" />
         <entry key="..\:/Users/c.rios.mancilla/AndroidStudioProjects/DigimonApp/app/src/main/res/layout/fragment_digimon_list.xml" value="0.1" />
+        <entry key="..\:/Users/c.rios.mancilla/AndroidStudioProjects/DigimonApp/app/src/main/res/layout/fragment_favorite_list.xml" value="0.151268115942029" />
         <entry key="..\:/Users/c.rios.mancilla/AndroidStudioProjects/DigimonApp/app/src/main/res/layout/list_item_digimon.xml" value="0.22" />
+        <entry key="..\:/Users/c.rios.mancilla/AndroidStudioProjects/DigimonApp/app/src/main/res/layout/list_item_favorite.xml" value="0.1796875" />
         <entry key="..\:/Users/c.rios.mancilla/AndroidStudioProjects/DigimonApp/app/src/main/res/menu/activity_main_bottom_navigation.xml" value="0.13489583333333333" />
         <entry key="..\:/Users/c.rios.mancilla/AndroidStudioProjects/DigimonApp/app/src/main/res/menu/menu_main.xml" value="0.13072916666666667" />
       </map>

@@ -32,20 +32,6 @@ enum class DigimonLevel(val value: String) {
 }
 
 object DigimonTest {
-    var digimonList: ArrayList<Digimon>? = null
-        get() {
-            if (field != null)      // backing 'field' refers to 'cityList' property object
-                return field
-            field = ArrayList()
-            val digimon = Digimon(
-                "Koromon",
-                "https://digimon.shadowsmith.com/img/koromon.jpg",
-                DigimonLevel.InTraining,
-                true
-            )
-            field?.add(digimon)
-            return field
-        }
     // Will contain the 'favorite' marked cities to be displayed in FavoriteFragment RecyclerView
     var favoriteDigimonList: MutableList<Digimon> = mutableListOf()
 }

@@ -1,7 +1,6 @@
-package com.example.digimonapp.fragment
+package com.example.digimonapp.ui.fragment
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +12,6 @@ import com.example.digimonapp.R
 import com.example.digimonapp.data.adapter.DigimonAdapter
 import com.example.digimonapp.data.viewmodel.DigimonViewModel
 import com.example.digimonapp.models.Digimon
-import com.example.digimonapp.models.DigimonTest
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -36,9 +34,9 @@ class DigimonListFragment : Fragment() {
 
     private fun setupRecyclerView(view: View?,digimonList:ArrayList<Digimon>) {
         val context = requireContext()
-        val cityAdapter = DigimonAdapter(context, digimonList)
-        val recyclerView = view?.findViewById<RecyclerView>(R.id.city_recycler_view)
-        recyclerView?.adapter = cityAdapter
+        val digimonAdapter = DigimonAdapter(context, digimonList)
+        val recyclerView = view?.findViewById<RecyclerView>(R.id.digimon_recycler_view)
+        recyclerView?.adapter = digimonAdapter
         recyclerView?.setHasFixedSize(true)
 
         val layoutManager = LinearLayoutManager(context)

@@ -8,7 +8,7 @@
     tools:context=".MainActivity">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/digimon_recycler_view"
+        android:id="@+id/favorite_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:padding="3dp"
@@ -16,6 +16,6 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/list_item_digimon" />
+        tools:listitem="@layout/list_item_favorite" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
