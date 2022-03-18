@@ -7,14 +7,14 @@
 
     <fragment
         android:id="@+id/fragmentDigimonList"
-        android:name="com.example.digimonapp.ui.fragment.DigimonListFragment"
+        android:name="com.example.digimonapp.ui.view.fragment.DigimonListFragment"
         android:label="@string/digimon_list_label"
         tools:layout="@layout/fragment_digimon_list">
     </fragment>
 
     <fragment
         android:id="@+id/fragmentFavoriteDigimonList"
-        android:name="com.example.digimonapp.ui.fragment.FavoriteListFragment"
+        android:name="com.example.digimonapp.ui.view.fragment.FavoriteListFragment"
         android:label="@string/digimon_list_label"
         tools:layout="@layout/fragment_favorite_list">
     </fragment>

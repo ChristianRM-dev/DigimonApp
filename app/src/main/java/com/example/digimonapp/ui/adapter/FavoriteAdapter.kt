@@ -1,4 +1,4 @@
-package com.example.digimonapp.data.adapter
+package com.example.digimonapp.ui.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -8,7 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.digimonapp.R
-import com.example.digimonapp.models.Digimon
+import com.example.digimonapp.domain.models.Digimon
 import com.squareup.picasso.Picasso
 
 class FavoriteAdapter(val context: Context, var favDigimonList: ArrayList<Digimon>) :

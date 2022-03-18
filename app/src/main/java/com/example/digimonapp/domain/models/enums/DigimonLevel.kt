@@ -1,10 +1,4 @@
-package com.example.digimonapp.models
-
-import android.net.Uri
-
-data class Digimon(var name: String, var img: String, var leler: DigimonLevel, var isFavorite: Boolean){
-
-}
+package com.example.digimonapp.domain.models.enums
 
 enum class DigimonLevel(val value: String) {
     Armor("Armor"),
@@ -29,9 +23,4 @@ enum class DigimonLevel(val value: String) {
             else -> throw IllegalArgumentException()
         }
     }
-}
-
-object DigimonTest {
-    // Will contain the 'favorite' marked cities to be displayed in FavoriteFragment RecyclerView
-    var favoriteDigimonList: MutableList<Digimon> = mutableListOf()
 }

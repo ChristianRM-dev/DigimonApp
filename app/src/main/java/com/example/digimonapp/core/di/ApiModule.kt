@@ -1,6 +1,8 @@
-package com.example.digimonapp.config.di
+package com.example.digimonapp.core.di
 
-import com.example.digimonapp.data.service.DigimonService
+import com.example.digimonapp.core.config.di.AppConfig.API_ENDPOINT
+import com.example.digimonapp.data.api.client.DigimonApiClient
+import com.example.digimonapp.data.api.service.DigimonService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,7 +16,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object ApiModule {
-    private const val BASE_URL = "https://digimon-api.vercel.app/api/"
+    private const val BASE_URL = API_ENDPOINT
 
     @Singleton
     @Provides
@@ -26,8 +28,7 @@ object ApiModule {
     @Singleton
     @Provides
     fun providesOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient =
-        OkHttpClient
-            .Builder()
+        OkHttpClient.Builder()
             .addInterceptor(httpLoggingInterceptor)
             .build()
 
@@ -41,7 +42,7 @@ object ApiModule {
 
     @Singleton
     @Provides
-    fun provideDigimonService(retrofit: Retrofit): DigimonService = retrofit.create(DigimonService::class.java)
+    fun provideDigimonApiClient(retrofit: Retrofit): DigimonApiClient = retrofit.create(DigimonApiClient::class.java)
 
    /* @Singleton
     @Provides

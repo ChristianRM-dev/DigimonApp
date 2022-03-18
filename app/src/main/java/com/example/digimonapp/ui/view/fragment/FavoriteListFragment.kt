@@ -1,4 +1,4 @@
-package com.example.digimonapp.ui.fragment
+package com.example.digimonapp.ui.view.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,9 +9,9 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.digimonapp.R
-import com.example.digimonapp.data.adapter.FavoriteAdapter
-import com.example.digimonapp.models.Digimon
-import com.example.digimonapp.models.DigimonTest
+import com.example.digimonapp.ui.adapter.FavoriteAdapter
+import com.example.digimonapp.domain.models.Digimon
+import com.example.digimonapp.domain.models.DigimonTest
 import com.google.android.material.snackbar.Snackbar
 import java.util.*
 import kotlin.collections.ArrayList
