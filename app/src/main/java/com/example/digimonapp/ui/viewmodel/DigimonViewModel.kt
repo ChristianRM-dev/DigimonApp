@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.digimonapp.data.database.entities.DigimonEntity
 import com.example.digimonapp.data.DigimonRepository
 import com.example.digimonapp.domain.models.Digimon
-import com.example.digimonapp.domain.models.GetDigimonsUseCase
+import com.example.digimonapp.domain.usecase.GetDigimonsUseCase
 
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -16,16 +16,20 @@ import javax.inject.Inject
 @HiltViewModel
 class DigimonViewModel @Inject constructor(private val getDigimonsUseCase: GetDigimonsUseCase) :
     ViewModel() {
-    val digimonModel = MutableLiveData<Digimon>()
+    val digimons = MutableLiveData<List<Digimon>>()
     val isLoading = MutableLiveData<Boolean>()
 
-    fun onCreate() {
+    init {
+        loadDigimons()
+    }
+
+    fun loadDigimons() {
         viewModelScope.launch {
             isLoading.postValue(true)
             val result = getDigimonsUseCase()
 
             if (!result.isNullOrEmpty()) {
-                digimonModel.postValue(result[0])
+                digimons.postValue(result)
                 isLoading.postValue(false)
             }
         }

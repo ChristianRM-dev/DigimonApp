@@ -2,6 +2,7 @@ package com.example.digimonapp.core.di
 
 import android.content.Context
 import androidx.room.Room
+import com.example.digimonapp.core.config.di.Constants
 import com.example.digimonapp.data.database.DigimonDatabase
 import dagger.Module
 import dagger.Provides
@@ -13,7 +14,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object RoomModule {
-    private const val DATABASE_NAME = "digimon_database"
+    private const val DATABASE_NAME = Constants.DATABASE_NAME
 
     @Singleton
     @Provides

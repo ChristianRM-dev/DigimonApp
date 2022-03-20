@@ -1,8 +1,7 @@
 package com.example.digimonapp.core.di
 
-import com.example.digimonapp.core.config.di.AppConfig.API_ENDPOINT
+import com.example.digimonapp.core.config.di.Constants
 import com.example.digimonapp.data.api.client.DigimonApiClient
-import com.example.digimonapp.data.api.service.DigimonService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,7 +15,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object ApiModule {
-    private const val BASE_URL = API_ENDPOINT
+    private const val BASE_URL = Constants.API_ENDPOINT
 
     @Singleton
     @Provides

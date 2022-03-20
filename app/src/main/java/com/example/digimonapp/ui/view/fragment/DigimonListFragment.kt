@@ -13,29 +13,28 @@ import com.example.digimonapp.R
 import com.example.digimonapp.ui.adapter.DigimonAdapter
 import com.example.digimonapp.ui.viewmodel.DigimonViewModel
 import com.example.digimonapp.domain.models.Digimon
+import com.example.digimonapp.ui.listeners.DigimonListListener
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DigimonListFragment : Fragment() {
+class DigimonListFragment : Fragment(), DigimonListListener {
     private val digimonViewModel: DigimonViewModel by viewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_digimon_list, container, false)
-
-        digimonViewModel.onCreate();
-
-        digimonViewModel.digimonModel.observe(viewLifecycleOwner, Observer {
-          /*  binding.tvQuote.text = it.
-            binding.tvAuthor.text = it.author*/
+       // digimonViewModel.loadDigimons();
+        digimonViewModel.digimons.observe(viewLifecycleOwner, Observer {
+            setupRecyclerView(view, it)
         })
         return view
     }
 
-    private fun setupRecyclerView(view: View?,digimonList:ArrayList<Digimon>) {
+    private fun setupRecyclerView(view: View?, digimonList: List<Digimon>) {
         val context = requireContext()
-        val digimonAdapter = DigimonAdapter(context)
+        val digimonAdapter = DigimonAdapter(context, digimonList)
         val recyclerView = view?.findViewById<RecyclerView>(R.id.digimon_recycler_view)
         recyclerView?.adapter = digimonAdapter
         recyclerView?.setHasFixedSize(true)
@@ -45,5 +44,7 @@ class DigimonListFragment : Fragment() {
         recyclerView?.layoutManager = layoutManager
     }
 
-
+    override fun onFavoriteClick(digimon: Digimon) {
+        TODO("Not yet implemented")
+    }
 }

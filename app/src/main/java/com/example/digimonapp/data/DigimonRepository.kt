@@ -23,7 +23,7 @@ class DigimonRepository  @Inject constructor(
         return response.map { it.toDomain() }
     }
 
-    suspend fun insertDigimon(digimon:DigimonEntity){
+    suspend fun markDigimonAsFavorite(digimon:DigimonEntity){
         dao.insert(digimon)
     }
 

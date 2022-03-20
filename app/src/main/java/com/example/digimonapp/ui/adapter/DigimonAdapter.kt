@@ -4,54 +4,43 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.digimonapp.R
+import com.example.digimonapp.databinding.ListItemDigimonBinding
 import com.example.digimonapp.domain.models.Digimon
-import com.example.digimonapp.domain.models.DigimonTest
-import com.example.digimonapp.domain.models.enums.DigimonLevel
-import com.example.digimonapp.ui.listeners.DigimonListListener
 import com.squareup.picasso.Picasso
 
-class DigimonAdapter(val context: Context) :
+class DigimonAdapter(val context: Context, val digimons: List<Digimon>) :
     RecyclerView.Adapter<DigimonAdapter.DigimonViewHolder>() {
-
-    private val digimons = mutableListOf<Digimon>()
-    private var digimonListListener: DigimonListListener? = null
-
-    fun setDigimons(albums: List<Digimon>, digimonListListener: DigimonListListener) {
-        this.digimonListListener = digimonListListener
-        if (this.digimons != albums) {
-            this.digimons.clear()
-            this.digimons.addAll(albums)
-            notifyDataSetChanged()
-        }
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DigimonViewHolder {
         val itemView =
-            LayoutInflater.from(context).inflate(R.layout.list_item_digimon, parent, false);
-        val digimon = Digimon(
-            "Silphymon",
-            "https://digimon.shadowsmith.com/img/silphymon.jpg",
-            DigimonLevel.Ultimate,
-            true
-        )
-        digimons.add(0, digimon)
+            LayoutInflater.from(context).inflate(R.layout.list_item_digimon, parent, false)
         return DigimonViewHolder(itemView)
     }
 
-    override fun onBindViewHolder(digimonHolder: DigimonViewHolder, position: Int) {
-        val digimon = digimons[position]
-        digimonHolder.setData(digimon, position)
-        digimonHolder.setListeners()
-    }
+    override fun onBindViewHolder(holder: DigimonViewHolder, position: Int) =
+        holder.bind(digimons[position])
 
     override fun getItemCount(): Int = digimons.size
 
-    inner class DigimonViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
+    inner class DigimonViewHolder(
+        view: View
+    ) : RecyclerView.ViewHolder(view),View.OnClickListener {
+        private val binding = ListItemDigimonBinding.bind(view)
+        fun bind(digimon: Digimon) {
+            binding.txvDigimomName.text = digimon.name
+            Picasso.get().load(digimon.img).into(binding.imvDigimon)
+        }
+
+        override fun onClick(view: View?) {
+            TODO("Not yet implemented")
+        }
+
+
+    }
+
+    /*inner class DigimonViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
         View.OnClickListener {
         private var currentPosition: Int = -1
         private var currentDigimon: Digimon? = null
@@ -89,10 +78,10 @@ class DigimonAdapter(val context: Context) :
         }
 
         override fun onClick(view: View?) {
-            /* when(view!!.id){
+            *//* when(view!!.id){
                  R.id.imv_delete -> deleteItem()
                  R.id.imv_favorite -> addToFavorite()
-             }*/
+             }*//*
         }
 
         private fun addToFavorite() {
@@ -106,13 +95,13 @@ class DigimonAdapter(val context: Context) :
             }
         }
 
-        /*private fun deleteItem() {
+        *//*private fun deleteItem() {
             digimonList.removeAt(currentPosition)
             notifyItemRemoved(currentPosition)
             notifyItemRangeChanged(currentPosition,digimonList.size)
             DigimonTest.favoriteDigimonList.remove(currentDigimon!!)
-        }*/
+        }*//*
 
-    }
+    }*/
 }
 
