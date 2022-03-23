@@ -27,6 +27,10 @@ class DigimonRepository  @Inject constructor(
         dao.insert(digimon)
     }
 
+    suspend fun removeFavoriteDigimon(digimon:DigimonEntity){
+        dao.delete(digimon)
+    }
+
     suspend fun insertDigimons(quotes:List<DigimonEntity>){
         dao.insertAll(quotes)
     }

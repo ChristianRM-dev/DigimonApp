@@ -34,7 +34,7 @@ class DigimonListFragment : Fragment(), DigimonListListener {
 
     private fun setupRecyclerView(view: View?, digimonList: List<Digimon>) {
         val context = requireContext()
-        val digimonAdapter = DigimonAdapter(context, digimonList)
+        val digimonAdapter = DigimonAdapter(context, digimonList,this)
         val recyclerView = view?.findViewById<RecyclerView>(R.id.digimon_recycler_view)
         recyclerView?.adapter = digimonAdapter
         recyclerView?.setHasFixedSize(true)
@@ -45,6 +45,8 @@ class DigimonListFragment : Fragment(), DigimonListListener {
     }
 
     override fun onFavoriteClick(digimon: Digimon) {
-        TODO("Not yet implemented")
+        digimonViewModel.insertFavorite(digimon).run {
+
+        }
     }
 }

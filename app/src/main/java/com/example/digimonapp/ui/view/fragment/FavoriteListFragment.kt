@@ -5,22 +5,24 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.digimonapp.R
 import com.example.digimonapp.ui.adapter.FavoriteAdapter
 import com.example.digimonapp.domain.models.Digimon
-import com.example.digimonapp.domain.models.DigimonTest
-import com.google.android.material.snackbar.Snackbar
+import com.example.digimonapp.ui.listeners.DigimonFavoriteListListener
+import com.example.digimonapp.ui.viewmodel.DigimonViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
-import kotlin.collections.ArrayList
 
-
-class FavoriteListFragment : Fragment() {
-    private lateinit var favoriteDigimonList   : ArrayList<Digimon>
-    private lateinit var favoriteAdapter    : FavoriteAdapter
-    private lateinit var recyclerView       : RecyclerView
+@AndroidEntryPoint
+class FavoriteListFragment : Fragment(), DigimonFavoriteListListener {
+    private lateinit var favoriteDigimonList: List<Digimon>
+    private lateinit var favoriteAdapter: FavoriteAdapter
+    private lateinit var recyclerView: RecyclerView
+    private val digimonViewModel: DigimonViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,15 +30,17 @@ class FavoriteListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_favorite_list, container, false)
-        setupRecyclerView(view)
+        digimonViewModel.loadFavoriteDigimons()
+        digimonViewModel.favoriteDigimons.observe(viewLifecycleOwner) {
+            setupRecyclerView(view, it)
+        }
         return view
     }
 
-    private fun setupRecyclerView(view: View) {
+    private fun setupRecyclerView(view: View, favoriteList: List<Digimon>) {
         val context = requireContext()
-
-        favoriteDigimonList = DigimonTest.favoriteDigimonList as ArrayList<Digimon>
-        favoriteAdapter = FavoriteAdapter(context, favoriteDigimonList)
+        this.favoriteDigimonList = favoriteList;
+        favoriteAdapter = FavoriteAdapter(context, this.favoriteDigimonList)
 
         recyclerView = view.findViewById(R.id.favorite_recycler_view)
         recyclerView.adapter = favoriteAdapter
@@ -75,19 +79,21 @@ class FavoriteListFragment : Fragment() {
             val deletedDigimon: Digimon = favoriteDigimonList[position]
 
             deleteItem(position)
-            updateDigimonList(deletedDigimon, false)
+            /*    updateDigimonList(deletedDigimon, false)
 
-            Snackbar.make(recyclerView, "Deleted", Snackbar.LENGTH_LONG)
-                .setAction("UNDO") {
-                    undoDelete(position, deletedDigimon)
-                    updateDigimonList(deletedDigimon, true)
-                }
-                .show()
+                Snackbar.make(recyclerView, "Deleted", Snackbar.LENGTH_LONG)
+                    .setAction("UNDO") {
+                        undoDelete(position, deletedDigimon)
+                        updateDigimonList(deletedDigimon, true)
+                    }
+                    .show()*/
         }
     })
 
     private fun deleteItem(position: Int) {
-        favoriteDigimonList.removeAt(position)
+        digimonViewModel.removeFavorite(favoriteDigimonList[position]).run {
+
+        }
         favoriteAdapter.notifyItemRemoved(position)
         favoriteAdapter.notifyItemRangeChanged(position, favoriteDigimonList.size)
     }
@@ -100,9 +106,13 @@ class FavoriteListFragment : Fragment() {
 
     private fun undoDelete(position: Int, deletedDigimon: Digimon) {
 
-        favoriteDigimonList.add(position, deletedDigimon)
-        favoriteAdapter.notifyItemInserted(position)
-        favoriteAdapter.notifyItemRangeChanged(position, favoriteDigimonList.size)
+        /*  favoriteDigimonList.add(position, deletedDigimon)
+          favoriteAdapter.notifyItemInserted(position)
+          favoriteAdapter.notifyItemRangeChanged(position, favoriteDigimonList.size)*/
+    }
+
+    override fun onRemoveFavorite(digimon: Digimon) {
+        TODO("Not yet implemented")
     }
 
 

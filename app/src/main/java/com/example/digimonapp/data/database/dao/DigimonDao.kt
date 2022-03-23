@@ -9,13 +9,13 @@ interface DigimonDao {
     suspend fun getDigimons():List<DigimonEntity>
 
     @Insert
-    fun insert(contact: DigimonEntity)
+    suspend fun insert(digimon: DigimonEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(quotes:List<DigimonEntity>)
+    suspend fun insertAll(digimons:List<DigimonEntity>)
 
     @Delete
-    fun delete(vararg contact: DigimonEntity)
+    suspend fun delete(digimon: DigimonEntity)
 
     @Query("DELETE FROM "+ DigimonEntity.TABLE_NAME)
     suspend fun deleteAllDigimons()
