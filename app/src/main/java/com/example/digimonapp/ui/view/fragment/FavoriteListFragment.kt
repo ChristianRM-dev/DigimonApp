@@ -14,12 +14,13 @@ import com.example.digimonapp.ui.adapter.FavoriteAdapter
 import com.example.digimonapp.domain.models.Digimon
 import com.example.digimonapp.ui.listeners.DigimonFavoriteListListener
 import com.example.digimonapp.ui.viewmodel.DigimonViewModel
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
 @AndroidEntryPoint
-class FavoriteListFragment : Fragment(), DigimonFavoriteListListener {
-    private lateinit var favoriteDigimonList: List<Digimon>
+class FavoriteListFragment : Fragment() {
+    private lateinit var favoriteDigimonList: MutableList<Digimon>
     private lateinit var favoriteAdapter: FavoriteAdapter
     private lateinit var recyclerView: RecyclerView
     private val digimonViewModel: DigimonViewModel by viewModels()
@@ -34,14 +35,15 @@ class FavoriteListFragment : Fragment(), DigimonFavoriteListListener {
         digimonViewModel.favoriteDigimons.observe(viewLifecycleOwner) {
             setupRecyclerView(view, it)
         }
+
+
         return view
     }
 
-    private fun setupRecyclerView(view: View, favoriteList: List<Digimon>) {
+    private fun setupRecyclerView(view: View, digimons: List<Digimon>) {
         val context = requireContext()
-        this.favoriteDigimonList = favoriteList;
-        favoriteAdapter = FavoriteAdapter(context, this.favoriteDigimonList)
-
+        favoriteDigimonList = digimons as MutableList<Digimon>
+        favoriteAdapter = FavoriteAdapter(context, favoriteDigimonList)
         recyclerView = view.findViewById(R.id.favorite_recycler_view)
         recyclerView.adapter = favoriteAdapter
         recyclerView.setHasFixedSize(true)
@@ -52,6 +54,7 @@ class FavoriteListFragment : Fragment(), DigimonFavoriteListListener {
 
         itemTouchHelper.attachToRecyclerView(recyclerView)
     }
+
 
     private val itemTouchHelper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
         ItemTouchHelper.UP or ItemTouchHelper.DOWN, ItemTouchHelper.RIGHT
@@ -76,44 +79,35 @@ class FavoriteListFragment : Fragment(), DigimonFavoriteListListener {
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
             // Called when the item is swiped.
             val position = viewHolder.adapterPosition
-            val deletedDigimon: Digimon = favoriteDigimonList[position]
+            val digimon = favoriteDigimonList[position]
+            removeFavorite(position)
+            updateDigimonDB(digimon, false)
 
-            deleteItem(position)
-            /*    updateDigimonList(deletedDigimon, false)
-
-                Snackbar.make(recyclerView, "Deleted", Snackbar.LENGTH_LONG)
-                    .setAction("UNDO") {
-                        undoDelete(position, deletedDigimon)
-                        updateDigimonList(deletedDigimon, true)
-                    }
-                    .show()*/
+            Snackbar.make(recyclerView, "${digimon.name} deleted", Snackbar.LENGTH_LONG)
+                .setAction("UNDO") {
+                    undoDelete(position, digimon)
+                    updateDigimonDB(digimon, true)
+                }
+                .show()
         }
     })
 
-    private fun deleteItem(position: Int) {
-        digimonViewModel.removeFavorite(favoriteDigimonList[position]).run {
-
-        }
+    private fun removeFavorite(position: Int) {
+        favoriteDigimonList.removeAt(position)
         favoriteAdapter.notifyItemRemoved(position)
         favoriteAdapter.notifyItemRangeChanged(position, favoriteDigimonList.size)
     }
 
-    private fun updateDigimonList(deletedDigimon: Digimon, isFavorite: Boolean) {
-        /*val digimonList = DigimonTest.digimonList!!
-        val position = digimonList.indexOf(deletedDigimon)
-        digimonList[position].isFavorite = isFavorite*/
+    private fun updateDigimonDB(digimon: Digimon, isFavorite: Boolean) {
+        digimon.isFavorite = isFavorite
+        digimonViewModel.updateDigimon(digimon).run {
+
+        }
     }
 
-    private fun undoDelete(position: Int, deletedDigimon: Digimon) {
-
-        /*  favoriteDigimonList.add(position, deletedDigimon)
-          favoriteAdapter.notifyItemInserted(position)
-          favoriteAdapter.notifyItemRangeChanged(position, favoriteDigimonList.size)*/
+    private fun undoDelete(position: Int, digimon: Digimon) {
+        favoriteDigimonList.add(position, digimon)
+        favoriteAdapter.notifyItemInserted(position)
+        favoriteAdapter.notifyItemRangeChanged(position, favoriteDigimonList.size)
     }
-
-    override fun onRemoveFavorite(digimon: Digimon) {
-        TODO("Not yet implemented")
-    }
-
-
 }

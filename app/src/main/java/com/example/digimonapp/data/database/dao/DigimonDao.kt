@@ -19,4 +19,10 @@ interface DigimonDao {
 
     @Query("DELETE FROM "+ DigimonEntity.TABLE_NAME)
     suspend fun deleteAllDigimons()
+
+    @Query("SELECT * FROM " + DigimonEntity.TABLE_NAME + " Where isFavorite == true ORDER BY id")
+    suspend fun getFavoriteDigimons():List<DigimonEntity>
+
+    @Update
+    suspend fun update(digimon: DigimonEntity)
 }

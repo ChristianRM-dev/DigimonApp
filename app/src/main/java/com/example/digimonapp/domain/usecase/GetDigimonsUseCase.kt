@@ -6,18 +6,25 @@ import com.example.digimonapp.domain.models.Digimon
 import javax.inject.Inject
 
 class GetDigimonsUseCase @Inject constructor(private val repository: DigimonRepository) {
-    suspend operator fun invoke(fromDatabase: Boolean = false): List<Digimon> {
-        return if (fromDatabase) {
-            repository.getAllDigimonsFromDatabase()
+    suspend operator fun invoke(onlyFavorites: Boolean = false): List<Digimon> {
+        /* return if (fromDatabase) {
+             repository.getAllDigimonsFromDatabase()
+         } else {
+             return repository.getDigimonsFromApi()
+         }*/
+
+        return if (onlyFavorites) {
+            repository.getFavoriteDigimon()
         } else {
-            return repository.getDigimonsFromApi()
+            val digimons = repository.getAllDigimonFromDatabase()
+            if (digimons.isNotEmpty()) {
+                digimons
+            } else {
+                repository.clearDigimon()
+                val apiDigimons = repository.getDigimonFromApi()
+                repository.insertDigimonList(apiDigimons.map { it.toDatabase() })
+                repository.getAllDigimonFromDatabase()
+            }
         }
-        /*   return if (digimons.isNotEmpty()) {
-               repository.clearDigimons()
-               repository.insertDigimons(digimons.map { it.toDatabase() })
-               digimons
-           } else {
-               repository.getAllDigimonsFromDatabase()
-           }*/
     }
 }

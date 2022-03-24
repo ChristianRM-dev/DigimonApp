@@ -11,7 +11,7 @@ import com.example.digimonapp.R
 import com.example.digimonapp.domain.models.Digimon
 import com.squareup.picasso.Picasso
 
-class FavoriteAdapter(val context: Context, var favDigimonList: List<Digimon>) :
+class FavoriteAdapter(val context: Context,val favDigimonList:List<Digimon> ) :
     RecyclerView.Adapter<FavoriteAdapter.FavDigimonViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavDigimonViewHolder {
@@ -20,6 +20,7 @@ class FavoriteAdapter(val context: Context, var favDigimonList: List<Digimon>) :
             LayoutInflater.from(context).inflate(R.layout.list_item_favorite, parent, false)
         return FavDigimonViewHolder(itemView)
     }
+
 
     override fun getItemCount(): Int = favDigimonList.size
 

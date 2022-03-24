@@ -9,6 +9,8 @@ import org.jetbrains.annotations.NotNull
 
 @Entity(tableName = DigimonEntity.TABLE_NAME)
 data class DigimonEntity (
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id") val id: Int = 0,
     @ColumnInfo(name = "name") @NotNull val name: String,
     @ColumnInfo(name = "img") @NotNull val img: String,
     @ColumnInfo(name = "isFavorite") val isFavorite: Boolean
@@ -17,9 +19,9 @@ data class DigimonEntity (
         const val TABLE_NAME = Constants.TABLE_DIGIMONS
     }
 
-    @PrimaryKey(autoGenerate = true)
+/*    @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    var id: Int = 0
+    var id: Int = 0*/
 }
 
-fun Digimon.toDatabase() = DigimonEntity(name, img,true)
+fun Digimon.toDatabase() = DigimonEntity(id,name, img,isFavorite)

@@ -50,7 +50,7 @@ class DigimonViewModel @Inject constructor(
         }
     }
 
-    fun insertFavorite(digimon: Digimon) {
+    fun updateDigimon(digimon: Digimon) {
         viewModelScope.launch {
             updateDigimonUseCase(digimon);
         }
@@ -61,36 +61,4 @@ class DigimonViewModel @Inject constructor(
             removeFavoriteUseCase(digimon);
         }
     }
-
-    /*private val countryLiveData = MutableLiveData<ArrayList<Digimon>?>()
-
-    fun getCountry() = countryLiveData
-
-    init {
-        loadCountries()
-    }
-
-    private fun loadCountries() {
-        viewModelScope.launch {
-            val countries = repository.getDigimons()
-            when (countries.isSuccessful) {
-                true -> {
-                    countryLiveData.postValue(countries.body())
-                }
-
-                else -> {
-                    Timber.e(countries.message())
-                }
-            }
-        }
-    }
-
-    fun insertFavorite(digimon: Digimon) {
-        viewModelScope.launch {
-            val digimonEntity: DigimonEntity =
-                DigimonEntity(digimon.name, digimon.img, digimon.isFavorite)
-            repository.insertDigimon(digimonEntity)
-        }
-    }*/
-
 }

@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.digimonapp.R
 import com.example.digimonapp.databinding.ListItemDigimonBinding
@@ -11,7 +12,11 @@ import com.example.digimonapp.domain.models.Digimon
 import com.example.digimonapp.ui.listeners.DigimonListListener
 import com.squareup.picasso.Picasso
 
-class DigimonAdapter(val context: Context, val digimons: List<Digimon>,val listener: DigimonListListener) :
+class DigimonAdapter(
+    val context: Context,
+    val digimons: List<Digimon>,
+    val listener: DigimonListListener
+) :
     RecyclerView.Adapter<DigimonAdapter.DigimonViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DigimonViewHolder {
@@ -21,8 +26,8 @@ class DigimonAdapter(val context: Context, val digimons: List<Digimon>,val liste
     }
 
     override fun onBindViewHolder(holder: DigimonViewHolder, position: Int) {
-        val city = digimons[position]
-        holder.bind(city,position)
+        val digimon = digimons[position]
+        holder.bind(digimon, position)
         holder.setListeners()
     }
 
@@ -30,15 +35,24 @@ class DigimonAdapter(val context: Context, val digimons: List<Digimon>,val liste
 
     inner class DigimonViewHolder(
         view: View
-    ) : RecyclerView.ViewHolder(view),View.OnClickListener {
+    ) : RecyclerView.ViewHolder(view), View.OnClickListener {
         private val binding = ListItemDigimonBinding.bind(view)
         private var currentPosition: Int = -1
+        private val noFavoriteIcon = ResourcesCompat.getDrawable(
+            context.resources,
+            R.drawable.ic_baseline_favorite_border_white_24, null
+        )
+        private val favoriteIcon = ResourcesCompat.getDrawable(
+            context.resources,
+            R.drawable.ic_baseline_favorite_white_24, null
+        )
 
-        fun bind(digimon: Digimon,position: Int) {
+        fun bind(digimon: Digimon, position: Int) {
             binding.txvDigimomName.text = digimon.name
             Picasso.get().load(digimon.img).into(binding.imvDigimon)
 
             this.currentPosition = position
+            switchFavImage()
         }
 
         fun setListeners() {
@@ -47,15 +61,24 @@ class DigimonAdapter(val context: Context, val digimons: List<Digimon>,val liste
         }
 
         override fun onClick(view: View?) {
-            when(view!!.id){
-              //  R.id.imv_delete -> deleteItem()
+            when (view!!.id) {
+                //  R.id.imv_delete -> deleteItem()
                 R.id.imv_favorite -> addToFavorite()
             }
         }
 
         private fun addToFavorite() {
             val digimon = digimons[this.currentPosition];
-           listener.onFavoriteClick(digimon)
+            digimons[this.currentPosition].isFavorite = !digimon.isFavorite
+
+            listener.onFavoriteClick(digimon)
+            switchFavImage();
+        }
+
+        private fun switchFavImage() {
+            val digimon = digimons[this.currentPosition];
+            val favoriteImage = if (digimon.isFavorite) favoriteIcon else noFavoriteIcon
+            binding.imvFavorite.setImageDrawable(favoriteImage)
         }
     }
 }

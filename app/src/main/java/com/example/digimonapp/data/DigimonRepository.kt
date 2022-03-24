@@ -13,29 +13,34 @@ class DigimonRepository  @Inject constructor(
     private val dao: DigimonDao
     ) {
 
-    suspend fun getDigimonsFromApi(): List<Digimon> {
+    suspend fun getDigimonFromApi(): List<Digimon> {
         val response: List<DigimonModel> = service.getDigimons()
         return response.map { it.toDomain() }
     }
 
-    suspend fun getAllDigimonsFromDatabase():List<Digimon>{
+    suspend fun getAllDigimonFromDatabase():List<Digimon>{
         val response: List<DigimonEntity> = dao.getDigimons()
         return response.map { it.toDomain() }
     }
 
     suspend fun markDigimonAsFavorite(digimon:DigimonEntity){
-        dao.insert(digimon)
+        dao.update(digimon)
     }
 
     suspend fun removeFavoriteDigimon(digimon:DigimonEntity){
         dao.delete(digimon)
     }
 
-    suspend fun insertDigimons(quotes:List<DigimonEntity>){
+    suspend fun insertDigimonList(quotes:List<DigimonEntity>){
         dao.insertAll(quotes)
     }
 
-    suspend fun clearDigimons(){
+    suspend fun clearDigimon(){
         dao.deleteAllDigimons()
+    }
+
+    suspend fun getFavoriteDigimon():List<Digimon>{
+        val response: List<DigimonEntity> = dao.getFavoriteDigimons()
+        return response.map { it.toDomain() }
     }
 }
